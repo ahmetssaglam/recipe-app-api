@@ -13,6 +13,8 @@ jobs:
 #        with:
 #          username: ${{ secrets.DOCKERHUB_USER }}
 #          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Permission Change
+        run: sudo chown -R $USER:$USER /home/ahmetsaidsaglam/github-actions/actions-runner/_work/recipe-app-api
       - name: Checkout
         uses: actions/checkout@v2
 
