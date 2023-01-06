@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "mrai-server",
+      "Group": "Servers",
+      "Host": "postgres-server",
+      "Port": 5432,
+      "MaintenanceDB": "postgres",
+      "Username": "mrai",
+      "PassFile": "/pgpass",
+      "SSLMode": "prefer"
+    }
+  }
+}

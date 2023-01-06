@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+
+  app:
+    container_name: recipe-app
+    build:
+      context: ./app
+    image: "recipe-app-image"
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./app/.env
+    #    command: sh -c "sleep 20 && python manage.py wait_for_db_connection && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: >
+      sh -c "python manage.py wait_for_db &&
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./app:/app
+    restart: always
+    depends_on:
+      - postgres-server
+
+  postgres-server:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: mrai
+      POSTGRES_PASSWORD: mraiwashere
+    volumes:
+      - ./postgres_config/init.sql:/docker-entrypoint-initdb.d/init.sql
+#      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5632:5432"
+#    healthcheck:
+#      test: ["CMD", "pg_isready", "-d", "${APP_DB}"]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 10
+#    restart: unless-stopped
+
+
+#  pgadmin:
+#    container_name: pgadmin_container
+#    image: dpage/pgadmin4
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+#      PGADMIN_DEFAULT_PASSWORD: mraiwashere
+#      PGADMIN_CONFIG_SERVER_MODE: "False"
+#    volumes:
+#      - ./postgres_config/servers.json:/pgadmin4/servers.json
+#      - ./postgres_config/pgpass:/pgpass
+#    ports:
+#      - "5633:80"
+#    depends_on:
+#      - postgres-server
+#    restart: unless-stopped
