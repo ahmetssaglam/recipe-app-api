@@ -16,7 +16,7 @@ jobs:
 #      - name: Checkout
 #        uses: actions/checkout@v2
       - name: Build
-        run: docker-compose up -d
+        run: pwd && docker-compose up -d
       - name: Test
 #        run: python3 app/manage.py test ./app/
         run: docker exec recipe-app python manage.py wait_for_db && python manage.py test
