@@ -27,4 +27,4 @@ jobs:
 
       - name: Clean Containers
         if: always()
-        run: docker-compose down --volumes
+        run: docker logs recipe-app && docker-compose down --volumes
